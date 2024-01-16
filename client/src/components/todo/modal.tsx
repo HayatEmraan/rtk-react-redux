@@ -14,25 +14,23 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
 import { TodoSelect } from "./select";
 import { useState } from "react";
-import { useAppDispatch } from "@/redux/hooks";
-import { addTodo } from "@/redux/slice/todo";
+import { useAddTodosMutation } from "@/redux/apis/api";
 
 export function TodoModal() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("low");
 
-  const dispatch = useAppDispatch();
+  const [todo] = useAddTodosMutation();
 
   const handleSubmit = () => {
-    const id = Math.random().toString(36).substring(2, 9);
     const obj = {
-      id,
       title,
       description,
       priority,
+      isCompleted: false,
     };
-    dispatch(addTodo(obj));
+    todo(obj);
   };
 
   return (

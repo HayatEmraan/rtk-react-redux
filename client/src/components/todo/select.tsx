@@ -25,7 +25,7 @@ export function TodoSelect({
         <SelectGroup>
           <SelectItem value="low">Low</SelectItem>
           <SelectItem value="medium">Medium</SelectItem>
-          <SelectItem value="high">Hight</SelectItem>
+          <SelectItem value="high">High</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

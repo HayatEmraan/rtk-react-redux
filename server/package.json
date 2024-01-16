@@ -1,9 +1,8 @@
 {
-  "name": "express-mongodb-vercel",
+  "name": "rtk-react-redux",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "author": "Mir Hussain",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"

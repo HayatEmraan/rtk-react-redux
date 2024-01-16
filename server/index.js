@@ -1,33 +1,31 @@
-require("dotenv").config();
 const express = require("express");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+require("dotenv").config();
 const app = express();
-const port = process.env.PORT || 5000;
+const port = 5000;
 
 const cors = require("cors");
 
 app.use(cors());
 app.use(express.json());
 
+console.log(process.env.DB_USER);
+
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.q24w29w.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverApi: ServerApiVersion.v1,
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
 });
 
 const run = async () => {
-  // await client.connect();
   try {
-    const db = client.db("tododb");
+    await client.connect();
+    const db = await client.db("tododb");
     const taskCollection = db.collection("todos");
-
-    // app.get('/tasks', async (req, res) => {
-    //   const cursor = taskCollection.find({});
-    //   const tasks = await cursor.toArray();
-    //   res.send({ status: true, data: tasks });
-    // });
 
     app.get("/todos", async (req, res) => {
       let query = {};

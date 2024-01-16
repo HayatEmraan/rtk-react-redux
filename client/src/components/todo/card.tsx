@@ -3,11 +3,11 @@ import { Button } from "../ui/button";
 import { completedTodo, removeTodo } from "@/redux/slice/todo";
 
 interface ITodo {
-  id: string;
+  _id: string;
   title: string;
   priority: string;
   description: string;
-  isCompleted?: boolean;
+  isCompleted: boolean;
 }
 
 const TodoCard = ({ todo }: { todo: ITodo }) => {
@@ -18,18 +18,30 @@ const TodoCard = ({ todo }: { todo: ITodo }) => {
   return (
     <div className="flex justify-between items-center border rounded-md bg-white px-2">
       <input
-        onChange={() => dispatch(completedTodo(todo.id))}
+        onChange={() => dispatch(completedTodo(todo._id))}
         type="checkbox"
+        className="mr-2"
         name="complete"
         id="complete"
       />
-      {todo.isCompleted ? (
-        <p className="text-green-400">Done</p>
-      ) : (
-        <p className="text-red-400">Pending</p>
-      )}
-      <p>{todo.title}</p>
-      <p>{todo.description}</p>
+      <p className="flex-1">{todo.title}</p>
+      <div className="flex-1">
+        {todo.priority === "high" ? (
+          <p className="text-red-700">High</p>
+        ) : todo.priority === "medium" ? (
+          <p className="text-purple-800">Medium</p>
+        ) : (
+          <p className="text-green-500">Low</p>
+        )}
+      </div>
+      <div className="flex-1">
+        {todo.isCompleted ? (
+          <p className="text-green-400">Done</p>
+        ) : (
+          <p className="text-red-400">Pending</p>
+        )}
+      </div>
+      <p className="flex-1">{todo.description}</p>
       <div className="space-x-2">
         <Button className="bg-green-500">
           <svg
@@ -46,7 +58,7 @@ const TodoCard = ({ todo }: { todo: ITodo }) => {
             />
           </svg>
         </Button>
-        <Button onClick={() => handleRemove(todo.id)} className="bg-red-500">
+        <Button onClick={() => handleRemove(todo._id)} className="bg-red-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
