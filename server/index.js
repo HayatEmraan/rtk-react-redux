@@ -9,8 +9,6 @@ const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 
-console.log(process.env.DB_USER);
-
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.q24w29w.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, {
@@ -60,7 +58,6 @@ const run = async () => {
     // status update
     app.put("/todo/:id", async (req, res) => {
       const id = req.params.id;
-      console.log(id);
       const task = req.body;
       const filter = { _id: ObjectId(id) };
       const updateDoc = {
@@ -86,5 +83,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Server listening on port ${port}`);
 });

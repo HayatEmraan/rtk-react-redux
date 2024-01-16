@@ -1,6 +1,8 @@
-import { useAppDispatch } from "@/redux/hooks";
 import { Button } from "../ui/button";
-import { completedTodo, removeTodo } from "@/redux/slice/todo";
+import {
+  useDeleteTodosMutation,
+  useUpdateTodoMutation,
+} from "@/redux/apis/api";
 
 interface ITodo {
   _id: string;
@@ -11,14 +13,32 @@ interface ITodo {
 }
 
 const TodoCard = ({ todo }: { todo: ITodo }) => {
-  const dispatch = useAppDispatch();
-  const handleRemove = (id: string) => {
-    dispatch(removeTodo(id));
+  const [TODO] = useUpdateTodoMutation();
+  const [remove] = useDeleteTodosMutation();
+
+  const handleRemove = () => {
+    remove(todo._id);
   };
+
+  const handleCompleted = () => {
+    const obj = {
+      title: todo.title,
+      priority: todo.priority,
+      description: todo.description,
+      isCompleted: !todo.isCompleted,
+    };
+
+    TODO({
+      id: todo._id,
+      data: obj,
+    });
+  };
+
   return (
     <div className="flex justify-between items-center border rounded-md bg-white px-2">
       <input
-        onChange={() => dispatch(completedTodo(todo._id))}
+        onChange={handleCompleted}
+        checked={todo.isCompleted}
         type="checkbox"
         className="mr-2"
         name="complete"
@@ -58,7 +78,7 @@ const TodoCard = ({ todo }: { todo: ITodo }) => {
             />
           </svg>
         </Button>
-        <Button onClick={() => handleRemove(todo._id)} className="bg-red-500">
+        <Button onClick={handleRemove} className="bg-red-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

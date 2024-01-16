@@ -10,9 +10,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function TodoFilter() {
-  const [position, setPosition] = React.useState("");
-
+export function TodoFilter({
+  position,
+  setPosition,
+}: {
+  position: string;
+  setPosition: React.Dispatch<React.SetStateAction<string>>;
+}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

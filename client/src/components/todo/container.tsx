@@ -1,16 +1,19 @@
+import { useState } from "react";
 import TodoCard from "./card";
 import { TodoFilter } from "./filter";
 import { TodoModal } from "./modal";
 import { useGetTodosQuery } from "@/redux/apis/api";
 
 const TodoContainer = () => {
-  const { data } = useGetTodosQuery(undefined);
+  const [position, setPosition] = useState("");
+
+  const { data } = useGetTodosQuery(position);
   console.log(data);
   return (
     <div>
       <div className="flex justify-between items-center my-2">
         <TodoModal />
-        <TodoFilter />
+        <TodoFilter position={position} setPosition={setPosition} />
       </div>
       <div className="bg-primary-gradient w-full h-full rounded-lg p-1">
         <div className="bg-white rounded-md space-y-2">
