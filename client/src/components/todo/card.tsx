@@ -1,4 +1,6 @@
+import { useAppDispatch } from "@/redux/hooks";
 import { Button } from "../ui/button";
+import { completedTodo, removeTodo } from "@/redux/slice/todo";
 
 interface ITodo {
   id: string;
@@ -9,9 +11,18 @@ interface ITodo {
 }
 
 const TodoCard = ({ todo }: { todo: ITodo }) => {
+  const dispatch = useAppDispatch();
+  const handleRemove = (id: string) => {
+    dispatch(removeTodo(id));
+  };
   return (
     <div className="flex justify-between items-center border rounded-md bg-white px-2">
-      <input type="checkbox" name="complete" id="complete" />
+      <input
+        onChange={() => dispatch(completedTodo(todo.id))}
+        type="checkbox"
+        name="complete"
+        id="complete"
+      />
       {todo.isCompleted ? (
         <p className="text-green-400">Done</p>
       ) : (
@@ -35,7 +46,7 @@ const TodoCard = ({ todo }: { todo: ITodo }) => {
             />
           </svg>
         </Button>
-        <Button className="bg-red-500">
+        <Button onClick={() => handleRemove(todo.id)} className="bg-red-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
